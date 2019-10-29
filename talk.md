@@ -1055,11 +1055,93 @@ class: middle
 
 ---
 
+class: middle
+
+# Glean
+
+## would not have been possible without Rust.
+
+.footnote[... and the effort of the Glean Team]
+
+---
+
+```rust
+#[derive(Debug)]
+pub struct Glean {
+    db: Database,
+    // ...
+}
+
+impl Glean {
+    pub fn new(app: String) -> Result<Self> {
+        Glean { db: open_db(&app) }
+    }
+}
+
+```
+
+---
+
+```rust
+#[no_mangle]
+unsafe extern "C" fn glean_initialize(
+    app: *const c_char
+) -> u64 {
+    let glean = Glean::new(app.into_string());
+    glean.into_handle()
+}
+```
+
+--
+
+## Rust makes FFI easier
+
+---
+
+```kotlin
+interface LibGleanFFI : Library {
+    companion object {
+        var INSTANCE: LibGleanFFI = u
+          Native.load("glean_ffi")
+    }
+
+    fun glean_initialize(app: String): Long
+}
+
+LibGleanFFI.INSTANCE.glean_initialize("sample-app")
+```
+
+---
+
+```swift
+class Glean {
+    let handle: UInt64
+
+    public func init(_ app: String) {
+        self.handle = glean_initialize(app)
+    }
+}
+```
+
+---
+
+class: center, height
+
+## Glean is live today in Firefox Preview!
+
+![Firefox Preview](media/firefox-preview.png)
+
+.footnote[[Firefox Preview in the Google Play store](https://play.google.com/store/apps/details?id=org.mozilla.fenix)]
+
+---
+
 class: middle, center
 
 # Something about Rust
 
 ## Jan-Erik Rediger — [@badboy_](https://twitter.com/badboy_)
+
+### [fnordig.de/talks/2019/something-about-rust](https://fnordig.de/talks/2019/something-about-rust)
 
 ---
 
@@ -1076,3 +1158,5 @@ class: middle, center
 **Sources**
 
 * [Glean](https://github.com/mozilla/glean)
+* [application-services](https://github.com/mozilla/application-services)
+* [Fenix (aka Firefox Preview)](https://github.com/mozilla-mobile/fenix)

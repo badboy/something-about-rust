@@ -99,6 +99,9 @@ li {
 .fullwidth img {
   width: 100%;
 }
+.height img {
+  width: 34%;
+}
 .nearfullwidth img {
   width: 80%;
 }
