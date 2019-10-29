@@ -77,12 +77,405 @@ class: center, middle, bold
 
 class: middle
 
+## Hello World
+
 ```rust
 fn main() {
     let x = 5;
     println!("x has the value {}", x);
 }
 ```
+
+---
+
+class: middle
+
+## Structs
+
+```rust
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 1, y: 1 };
+}
+```
+
+---
+
+class: middle
+
+## Enums (classic)
+
+```rust
+enum Direction {
+    Right,
+    Left,
+    Up,
+    Down,
+}
+
+fn main() {
+    let direction = Direction::Left;
+}
+```
+
+---
+
+class: middle
+
+## Enums (with values)
+
+```rust
+enum Movement {
+    Right(i32),
+    Left(i32),
+    Up(i32),
+    Down(i32),
+}
+
+fn main() {
+    let movement = Movement::Left(12);
+}
+```
+
+---
+
+class: middle, center
+
+```rust
+null
+```
+
+## does not exist
+
+---
+
+class: middle, center
+
+## Generics are fundamental for Rust.
+
+---
+
+class: middle
+
+## Generic Structs
+
+```rust
+struct Point<Precision> {
+    x: Precision,
+    y: Precision
+}
+
+fn main() {
+    let point = Point { x: 1_u32, y: 2 };
+    let point: Point<i32> = Point { x: 1, y: 2 };
+}
+```
+
+---
+
+class: middle
+
+## Generic Enums
+
+```rust
+enum Either<T, X> {
+    Left(T),
+    Right(X)
+}
+
+fn main() {
+    let alternative: Either<i32, f64> =
+        Either::Left(123);
+}
+```
+
+---
+
+class: middle, center
+
+## Built-in Generic Types
+
+---
+
+class: middle
+
+## Option
+
+```rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+
+fn main() {
+    let args = std::env::args;
+    println!("{:?}", args().nth(1));
+    // => None
+}
+```
+
+---
+
+class: middle
+
+## Result
+
+```rust
+enum Result<T, E> {
+    Ok(T),
+    Err(E)
+}
+
+fn main() {
+    let file = std::fs::File::open("I don't exist!");
+    println!("{:?}", file);
+}
+```
+
+---
+
+class: middle
+
+## Generic Functions
+
+```rust
+fn accept_any_type<T>(arg: T) {
+    // ...
+}
+
+fn transmute<T, U>(arg: T) -> U {
+    // ...
+}
+```
+
+---
+
+class: middle, center
+
+# Ownership & Borrowing
+
+---
+
+class: middle, center
+
+## Ownership is the basis for the memory management of Rust.
+
+---
+
+class: list
+
+## Ownership rules
+
+* Every value has exactly one owner
+* Ownership can be passed on
+* The owner is responsible for removing the data from memory
+* The owner has all powers over the data and can mutate it
+
+---
+
+class: list
+
+## Ownership rules
+
+* are fundamental to Rust's type system
+* are enforced at compile time
+* are practical in many other ways
+
+---
+
+class: smallcode
+
+```rust
+#[derive(Debug)]
+struct Dot {
+    x: i32,
+    y: i32
+}
+
+fn main() {
+    let dot = Dot { x: 1, y: 2 };
+    pacman(dot);
+}
+
+fn pacman(dot: Dot) {
+    println!("Eating {:?}", dot);
+}
+```
+
+---
+
+class: smallcode
+
+```rust
+#[derive(Debug)]
+struct Dot {
+    x: i32,
+    y: i32
+}
+
+fn main() {
+    let dot = Dot { x: 1, y: 2 };
+    pacman(dot);
+*   pacman(dot);
+}
+
+fn pacman(dot: Dot) {
+    println!("Eating {:?}", dot);
+}
+```
+
+---
+
+```tex
+error[E0382]: use of moved value: `dot`
+  --> src/main.rs:10:12
+   |
+8  |     let dot = Dot { x: 1, y: 2 };
+   |         --- move occurs because `dot`
+   |             has type `Dot`, which does not
+   |             implement the `Copy` trait
+9  |     pacman(dot);
+   |            --- value moved here
+10 |     pacman(dot);
+   |            ^^^ value used here after move
+```
+
+---
+
+class: smallcode
+
+```rust
+*#[derive(Debug, Clone)]
+struct Dot {
+    x: i32,
+    y: i32
+}
+
+fn main() {
+    let dot = Dot { x: 1, y: 2 };
+*   pacman(dot.clone());
+    pacman(dot);
+}
+
+fn pacman(dot: Dot) {
+    println!("Eating {:?}", dot);
+}
+```
+
+---
+
+class: smallcode
+
+```rust
+*#[derive(Debug, Clone, Copy)]
+struct Dot {
+    x: i32,
+    y: i32
+}
+
+fn main() {
+    let dot = Dot { x: 1, y: 2 };
+*   pacman(dot);
+    pacman(dot);
+}
+
+fn pacman(dot: Dot) {
+    println!("Eating {:?}", dot);
+}
+```
+
+---
+
+class: center, middle
+
+## `drop` is the function that deallocates a value immediately. What does the implementation look like?
+
+---
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let file = File::open("test").unwrap();
+    let buffer = read_from(&file);
+*   drop(file);
+    // do something long
+}
+```
+
+## `fn drop(??) { ?? }`
+
+---
+
+```rust
+#[inline]
+fn drop<T>(_: T) {
+  // take ownership, drop out of scope
+}
+```
+
+---
+
+class: center, middle
+
+## What you own, you can borrow
+
+---
+
+class: smallcode
+
+```rust
+#[derive(Debug)]
+struct Point {
+    x: i32,
+    y: i32
+}
+
+fn main() {
+    let mut point = Point { x: 1, y: 2 };
+    inspect(&point);
+    point.x = 2;
+    inspect(&point);
+}
+
+fn inspect(p: &Point) {
+    println!("{:?}", p);
+}
+```
+
+---
+
+class: center, middle
+
+## Borrows are immutable by default
+
+---
+
+class: smallcode
+
+```rust
+fn main() {
+    let mut point = Point { x: 1, y: 2 };
+    inspect(&point);
+    move_point(&mut point, 3, 3);
+    inspect(&point);
+}
+
+fn move_point(p: &mut Point, x: i32, y: i32) {
+    p.x = x;
+    p.y = y;
+}
+```
+
+---
+
+class: center, middle
+
+## Mutable Borrows are exclusive!
 
 ---
 
@@ -585,6 +978,7 @@ class: middle, center
 * [Rust in Three Days (Workshop material)](https://ferrous-systems.github.io/rust-three-days-course/presentation/?locale=en-US#/)
 * [Rustlings](https://github.com/rust-lang/rustlings)
 * [Rust by Example](https://doc.rust-lang.org/rust-by-example/index.html)
+* [Playground](https://play.rust-lang.org/)
 
 **Sources**
 

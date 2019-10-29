@@ -84,6 +84,11 @@ blockquote > p:last-child {
 li {
   line-height: 1.7em;
 }
+.list li {
+  font-size: 2em;
+  line-height: 1.5em;
+  margin-bottom: 15px;
+}
 
 .rustfest h1, .rustfest a {
   color: white;
@@ -122,4 +127,8 @@ li {
 
 .justify {
   text-align: justify;
+}
+
+.smallcode .remark-code {
+  font-size: 1.5em;
 }
