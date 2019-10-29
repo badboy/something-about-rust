@@ -89,6 +89,11 @@ li {
   line-height: 1.5em;
   margin-bottom: 15px;
 }
+.smalllist li {
+  font-size: 1.5em;
+  line-height: 1.0em;
+  margin-bottom: 10px;
+}
 
 .rustfest h1, .rustfest a {
   color: white;

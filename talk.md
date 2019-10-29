@@ -479,6 +479,24 @@ class: center, middle
 
 ---
 
+class: smalllist
+
+## Huge amount of stuff I didn't cover
+
+* Small but useful standard library
+* Error handling
+* Functional Language Features
+* Object-oriented patterns
+* Testing
+* async/await & asynchronous programming
+* Packages, Crates, crates.io, ...
+* Cargo, the package manager
+* FFI, embedded targets, WASM, ...
+* ...
+
+
+---
+
 <!-- intentionally left empty -->
 
 ---
