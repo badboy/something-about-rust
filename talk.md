@@ -479,6 +479,10 @@ class: center, middle
 
 ---
 
+<!-- intentionally left empty -->
+
+---
+
 class: middle, center
 
 # A timeline
@@ -826,6 +830,8 @@ class: middle, center
 
 ## 2020 - Year 5
 # ???
+
+.footnote[[A call for blogs 2020](A call for blogs 2020)]
 
 ---
 
