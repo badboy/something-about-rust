@@ -75,6 +75,17 @@ class: center, middle, bold
 
 ---
 
+class: middle
+
+```rust
+fn main() {
+    let x = 5;
+    println!("x has the value {}", x);
+}
+```
+
+---
+
 class: middle, center
 
 # A timeline
@@ -370,6 +381,15 @@ class: middle, center
 
 class: middle, center
 
+## October 29, 2019
+# A call for blogs 2020
+
+.footnote[Yep, we're asking early: [Blog post](https://blog.rust-lang.org/2019/10/29/A-call-for-blogs-2020.html)]
+
+---
+
+class: middle, center
+
 ## October 30, 2019*
 # Rust 1.38.0
 
@@ -406,6 +426,13 @@ background-image: linear-gradient(to bottom, rgba(8,71,136,0.9), rgba(8,71,136,0
 ![RustFest](media/rustfest.png)
 
 ## <https://rustfest.eu>
+
+---
+
+class: middle, center
+
+## 2020 - Year 5
+# ???
 
 ---
 
@@ -520,6 +547,45 @@ class: center, middle, fullwidth
 
 class: middle, center
 
+# Something about Rust?
+
+???
+
+question time / break
+
+---
+
+class: middle, center
+
+## ...and now for something completely different
+
+---
+
+class: middle, center, fullwidth
+
+![Glean](media/glean.jpg)
+
+.footnote[[Introducing Glean — Telemetry for humans](https://medium.com/georg-fritzsche/introducing-glean-telemetry-for-humans-4e8b4788b8ad)]
+
+---
+
+class: middle, center
+
 # Something about Rust
 
 ## Jan-Erik Rediger — [@badboy_](https://twitter.com/badboy_)
+
+---
+
+## Material
+
+**Learning**
+
+* [The Rust Programming Language (book)](https://doc.rust-lang.org/book/)
+* [Rust in Three Days (Workshop material)](https://ferrous-systems.github.io/rust-three-days-course/presentation/?locale=en-US#/)
+* [Rustlings](https://github.com/rust-lang/rustlings)
+* [Rust by Example](https://doc.rust-lang.org/rust-by-example/index.html)
+
+**Sources**
+
+* [Glean](https://github.com/mozilla/glean)

@@ -17,7 +17,7 @@ del {
 }
 
 .remark-code {
-  font-size: 4em;
+  font-size: 2em;
   font-family: 'Nunito', monospace;
   font-weight: bold;
 }
@@ -81,20 +81,8 @@ blockquote > p:last-child {
   font-size: 0.7em;
 }
 
-ul {
-  margin: 0;
-}
-
 li {
-  list-style-type: none;
-  font-size: 3.0em;
-  font-weight: bold;
-  padding-bottom: 20px;
-}
-
-li > ul li {
-  font-size: 0.5em;
-  padding: 0;
+  line-height: 1.7em;
 }
 
 .rustfest h1, .rustfest a {
