@@ -956,7 +956,44 @@ question time / break
 
 class: middle, center
 
-## ...and now for something completely different
+## ...and now for something completely different.
+
+---
+
+class: center, middle, fullwidth
+
+## Firefox Telemetry
+
+![GC_MS histogram](media/gc-ms.png)
+
+---
+
+class: center, middle
+
+## We don't collect data about Firefox Users.
+## We do collect data about Firefox.
+
+---
+
+class: center, middle, fullwidth
+
+## about:telemetry shows your data
+
+![about:telemetry](media/about-telemetry.png)
+
+---
+
+class: center, middle, fullwidth
+
+## We follow Lean Data Practices
+
+![Lean Data Practices](media/lean-data-practices.png)
+
+.footnote[<https://leandatapractices.com/>]
+
+---
+
+<!-- intentionally left empty -->
 
 ---
 
@@ -965,6 +1002,56 @@ class: middle, center, fullwidth
 ![Glean](media/glean.jpg)
 
 .footnote[[Introducing Glean — Telemetry for humans](https://medium.com/georg-fritzsche/introducing-glean-telemetry-for-humans-4e8b4788b8ad)]
+
+---
+
+class: middle
+
+# Glean
+
+## is a modern approach for telemetry.
+
+---
+
+class: middle
+
+# Glean
+
+## was developed for Android first.
+
+---
+
+class: middle
+
+# Glean
+
+## is coming to iOS (this year).
+
+---
+
+class: middle
+
+# Glean
+
+## is coming to desktop (next year).
+
+---
+
+class: middle
+
+# Glean
+
+## is now cross-platform.
+
+---
+
+class: middle
+
+# Glean
+
+## is written in Rust.
+
+.footnote[[This Week in Glean: A Release](https://fnordig.de/2019/10/24/this-week-in-glean/)]
 
 ---
 
