@@ -16,23 +16,59 @@ class: middle, center
 
 ## Jan-Erik Rediger — [@badboy_](https://twitter.com/badboy_)
 
-???
+---
 
-Hi!
+class: center, middle, withimg
 
-I'm here to talk about a shell that shouts at you.
+# Firefox Telemetry Engineer
 
-And how a tweet got me into writing 100 lines of Rust code.
+![Mozilla](media/mozilla.png)
 
 ---
 
-class: center, withimg
+class: center, withimg, rustfest
+background-image: linear-gradient(to bottom, rgba(8,71,136,0.9), rgba(8,71,136,0.1)),url(media/rustfest-rome-family.jpg)
 
 # RustFest Barcelona 2019
 
 ![RustFest](media/rustfest.png)
 
 ## <https://rustfest.eu>
+
+---
+
+class: center, withimg
+
+# Rust
+
+![Rust](media/rust-logo-blk.svg)
+
+---
+
+class: center, middle, bold
+
+## A language empowering everyone to build reliable and efficient software.
+
+---
+
+class: center, middle, nearfullwidth
+
+## Number of Rust Events per year
+
+![Rust Events over the years](media/rust-confs.png)
+
+---
+
+class: center, middle, fullwidth
+
+## Number of crates over the years
+
+![Number of crates over the years](media/number-of-crates.png)
+
+---
+
+class: center, middle
+background-image: url(media/all-confs.png)
 
 ---
 
@@ -47,7 +83,8 @@ class: middle, center
     </script>
     <script type="text/javascript">
       var slideshow = remark.create({
-        ratio: '16:9',
+        ratio: '4:3',
+        //ratio: '16:9',
         slideNumberFormat: '',
         highlightSpans: true,
         highlightLanguage: "no-highlight"
@@ -55,7 +92,9 @@ class: middle, center
       <!--slideshow.togglePresenterMode();-->
 
       var fixline_elem = document.querySelector(".fixhighlight .remark-code > .remark-code-line");
-      fixline_elem.innerHTML = fixline_elem.innerHTML.trim();
+      if (fixline_elem) {
+          fixline_elem.innerHTML = fixline_elem.innerHTML.trim();
+      }
     </script>
 
     <div class="footer">

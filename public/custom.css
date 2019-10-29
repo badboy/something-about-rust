@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
 body {
-  font-family: 'Nunito', 'Roboto', 'Source Sans Pro', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 .remark-notes p {
@@ -21,7 +21,7 @@ body {
 .footer {
   position: absolute;
   bottom: 12px;
-  right: 100px;
+  right: 330px;
   z-index: 2000;
   font-size: 2.0em;
 }
@@ -93,8 +93,17 @@ li > ul li {
   padding: 0;
 }
 
+.rustfest h1, .rustfest a {
+  color: white;
+}
 .withimg img {
   width: 30%;
+}
+.fullwidth img {
+  width: 100%;
+}
+.nearfullwidth img {
+  width: 80%;
 }
 
 @media print {
