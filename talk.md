@@ -86,6 +86,10 @@ fn main() {
 }
 ```
 
+???
+
+advanced: slide 123
+
 ---
 
 class: middle
@@ -150,6 +154,51 @@ null
 ```
 
 ## does not exist
+
+---
+
+class: smallcode
+
+## impl
+
+```rust
+struct Point {
+    x: i32,
+    y: i32
+}
+
+impl Point {
+    fn new(x: i32, y: i32) -> Point {
+        Point { x: x, y: y }
+    }
+}
+fn main() {
+    let point = Point::new(1,2);
+}
+```
+
+---
+
+class: smallcode
+
+## Traits
+
+```rust
+struct Point {
+    x: i32,
+    y: i32
+}
+
+trait Distance {
+    fn distance(&self, other: &Self) -> f64;
+}
+
+impl Distance for Point {
+    fn distance(&self, other: &Point) -> f64 {
+        // math
+    }
+}
+```
 
 ---
 
@@ -512,6 +561,10 @@ class: middle, center
 ## 2006
 # Rust is born
 
+???
+
+graydon hoare
+
 ---
 
 class: middle, center
@@ -556,6 +609,10 @@ class: middle, center
 
 ## ... and 6 releases.
 
+???
+
+Rust 1.5
+
 ---
 
 class: middle, center
@@ -579,12 +636,32 @@ class: middle, center
 ## May 2016
 # State of Rust Survey
 
+???
+
+do you use rust
+
+which version
+
+backward compatible / breaking
+
+rust at work
+
+learning curve
+
+tool usage
+
+demographics
+
 ---
 
 class: middle, center
 
 ## June 2016
 # 3000 responses to the survey
+
+???
+
+imaturity of libraries and tools
 
 ---
 
@@ -607,6 +684,16 @@ class: middle, center
 ## 2017 - Year 2
 # Rust: fast, reliable, productive—pick three.
 
+???
+
+lower learning curve
+
+solid, basic IDE experience
+
+high-quality crates
+
+mentoring at all levels
+
 ---
 
 class: middle, center
@@ -628,6 +715,14 @@ class: middle, center
 ## June 2017
 # Increasing Rust's Reach
 
+???
+
+8 projects, all mentored
+
+3 months
+
+visit a rust conference
+
 ---
 
 class: middle, center
@@ -635,6 +730,12 @@ class: middle, center
 ## August-October 2017
 ## ... and April 2017
 # 4 Rust conferences
+
+???
+
+rustconf
+rust belt rust
+rustfest 2x
 
 ---
 
@@ -674,6 +775,20 @@ class: middle, center
 # Rust 1.22.1
 ## & other achievements
 
+???
+
+3 books
+
+rustbridge curriculum
+
+better ergonomics
+
+Incremental recompilation
+
+Rust Language Server
+
+start of the async ecosystem (mio, tokio, futures)
+
 ---
 
 class: middle, center
@@ -711,6 +826,12 @@ class: middle, center
 ## April 2018
 # Increasing Rust's Reach
 
+???
+
+14 participants
+
+7 projects
+
 ---
 
 class: middle, center
@@ -720,6 +841,10 @@ class: middle, center
 ## (multi-language!)
 
 .footnote[Now we start it late]
+
+???
+
+15 languages
 
 ---
 
@@ -1172,9 +1297,299 @@ class: middle, center
 * [Rustlings](https://github.com/rust-lang/rustlings)
 * [Rust by Example](https://doc.rust-lang.org/rust-by-example/index.html)
 * [Playground](https://play.rust-lang.org/)
+* [Async programming in Rust with async-std](https://book.async.rs/)
 
 **Sources**
 
 * [Glean](https://github.com/mozilla/glean)
 * [application-services](https://github.com/mozilla/application-services)
 * [Fenix (aka Firefox Preview)](https://github.com/mozilla-mobile/fenix)
+
+---
+
+class: center, middle
+
+# Advanced Topics
+
+
+---
+
+class: center, middle
+
+## Smart pointers
+
+### How to manage memory without managing memory
+
+---
+
+class: smallcode
+
+## Runtime reference-counted data
+
+```rust
+use std::rc::Rc;
+
+struct Point {
+   x: i32,
+   y: i32,
+}
+
+fn main() {
+    let rced_point = Rc::new(Point { x: 1, y: 1});
+    let first_handle = rced_point.clone();
+    let second_handle = rced_point.clone();
+}
+```
+
+---
+
+class: middle, center
+
+## `std::rc::Rc<T>`
+## is single-thread only
+
+---
+
+class: middle, center
+
+## `std::sync::Arc<T>`
+##  for atomic & thread-safe
+
+---
+
+class: middle, center
+
+## `std::borrow::Cow<T>`
+
+### Copy-on-write
+
+## Either `&T` or `T`
+
+---
+
+class: middle, center
+
+## There are two special traits in Rust for concurrency semantics.
+
+---
+
+class: middle, center
+
+# `Send`
+
+## safe to *send* between threads.
+
+---
+
+class: middle, center
+
+# `Sync`
+
+## safe to *share* between threads.
+
+---
+
+class: middle, center
+
+## `Send` and `Sync` are automatically derived for all types if appropriate.
+
+---
+
+class: middle, center
+
+## `Send` and `Sync` are what Rust uses to prevent data races.
+
+---
+
+class: smallcode
+
+## Automatically Derived
+
+```rust
+use std::thread;
+
+#[derive(Debug)]
+struct Thing;
+
+// Can send between threads!
+fn main() {
+    let thing = Thing;
+
+    thread::spawn(move || {
+        println!("{:?}", thing);
+    }).join().unwrap();
+}
+```
+
+---
+
+class: smallcode
+
+## Not implemented when it could cause problems
+
+```rust
+use std::rc::Rc;
+use std::thread;
+
+// Does not work!
+fn main() {
+    let only_one_thread = Rc::new(true);
+
+    thread::spawn(move || {
+        println!("{:?}", only_one_thread);
+    }).join().unwrap();
+}
+```
+
+---
+
+## ... and it fails to compile:
+
+```tex
+error[E0277]: `std::rc::Rc<bool>` cannot be sent between threads safely
+[...]
+  = help: within `[closure@src/main.rs:8:19]`,
+*   the trait `std::marker::Send` is not
+*   implemented for `std::rc::Rc<bool>`
+```
+
+---
+
+class: center, middle
+
+## last but not least
+
+### ... and fresh of the presses
+
+--
+
+# async/await
+
+---
+
+## Core concept: Futures
+
+```rust
+trait Future {
+    type Output;
+
+    fn poll(self: /* ... */) -> Poll<Self::Output>;
+}
+```
+
+## A value that is yet to be computed
+
+---
+
+class: smallcode
+
+## Core concept: async/await
+
+```rust
+use async_std::io;
+
+async fn read_from_stdin() -> io::Result<()> {
+    let stdin = io::stdin();
+
+    // Read a line from the standard input and display it.
+    let mut line = String::new();
+    stdin.read_line(&mut line).await?;
+    dbg!(line);
+
+    Ok(())
+}
+```
+
+---
+
+class: smallcode
+
+## Core concept: async/await
+
+```rust
+use async_std::io;
+
+*async fn read_from_stdin() -> io::Result<()> {
+    let stdin = io::stdin();
+
+    // Read a line from the standard input and display it.
+    let mut line = String::new();
+    stdin.read_line(&mut line).await?;
+    dbg!(line);
+
+    Ok(())
+}
+```
+
+---
+
+class: smallcode
+
+## Core concept: async/await
+
+```rust
+use async_std::io;
+
+async fn read_from_stdin() -> io::Result<()> {
+    let stdin = io::stdin();
+
+    // Read a line from the standard input and display it.
+    let mut line = String::new();
+*   stdin.read_line(&mut line).await?;
+    dbg!(line);
+
+    Ok(())
+}
+```
+
+---
+
+class: middle, center
+
+## Poll, not push
+
+## A future won't start working until it gets polled
+
+--
+
+## So who polls?
+
+---
+
+class: middle, center
+
+# Executors
+
+--
+
+## Multiple implementations possible
+## Use the system's event loop mechanism*
+
+.footnote[e.g. kqueue, epoll, libuv]
+
+---
+
+class: center, middle
+
+## Futures have been around a bit
+--
+
+## async/await is brand-new*
+
+.footnote[Stable release: Novemeber 7th, 2019, that is: next week]
+--
+
+## Ecosystem is just starting
+
+---
+
+class: center, middle
+
+## [async-std](https://async.rs/)
+
+## Reimplementation of the standard library in async
+
+???
+
+timeline: slide 45
+
